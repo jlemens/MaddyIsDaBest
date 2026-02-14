@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>For Maddy Cole, Mi Amor 💖</title>
+  <script>
+    (function() {
+      function setViewportHeight() {
+        var h = window.innerHeight || document.documentElement.clientHeight;
+        document.documentElement.style.setProperty('--vh', (h * 0.01) + 'px');
+        document.documentElement.style.setProperty('--app-height', h + 'px');
+      }
+      setViewportHeight();
+      window.addEventListener('resize', setViewportHeight);
+      window.addEventListener('orientationchange', setViewportHeight);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', setViewportHeight);
+      }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      height: 100%;
+      height: var(--app-height, 100vh);
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, Georgia, serif;
+      -webkit-text-size-adjust: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+    body { background: #ffb6c1; }
+
+    .phone-frame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      height: var(--app-height, 100vh);
+      min-height: -webkit-fill-available;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffb6c1;
+    }
+    .phone-content {
+      aspect-ratio: 9/16;
+      /* Use visible height minus safe areas so the "phone" fits on notched iOS */
+      height: min(calc(var(--app-height, 100vh) - env(safe-area-inset-top) - env(safe-area-inset-bottom)), 100vw * 16/9);
+      width: auto;
+      max-width: min(100vw, calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)));
+      max-height: calc(var(--app-height, 100vh) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      position: relative;
+      overflow: hidden;
+      background: #ffb6c1;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+    }
+    .screen.active { display: flex; }
+
+    .screen-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .screen-content { position: relative; z-index: 1; }
+
+    /* Landing */
+    #landing {
+      justify-content: space-between;
+      padding: max(2rem, env(safe-area-inset-top)) 1rem max(4rem, env(safe-area-inset-bottom));
+    }
+    #landing .screen-bg {
+      background-image: url('assets/HomePage.png');
+    }
+    #landing .screen-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 182, 193, 0.4);
+    }
+    #landing > :not(.screen-bg) { position: relative; z-index: 1; }
+    .title {
+      color: #6b2d4a;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      font-weight: 700;
+      text-align: center;
+      padding: 0.75rem 1.25rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      width: 100%;
+      padding: 0 0.5rem;
+    }
+    @keyframes btnPop {
+      0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+      60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes btnGlow {
+      0%, 100% { box-shadow: 0 6px 24px rgba(107,45,74,0.25), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,1); }
+      50% { box-shadow: 0 8px 32px rgba(107,45,74,0.35), 0 3px 12px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,1), 0 0 20px rgba(255,105,180,0.2); }
+    }
+    .btn {
+      min-width: 280px;
+      width: 90%;
+      max-width: 380px;
+      padding: 1.5rem 2.5rem;
+      font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+      font-weight: 700;
+      font-family: inherit;
+      border: 3px solid rgba(255,255,255,0.85);
+      border-radius: 14px;
+      cursor: pointer;
+      touch-action: manipulation;
+      background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(255,240,245,0.95));
+      color: #6b2d4a;
+      box-shadow: 0 6px 24px rgba(107,45,74,0.25), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,1);
+      text-shadow: 0 1px 2px rgba(107,45,74,0.1);
+      letter-spacing: 0.03em;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      animation: btnPop 0.6s ease-out backwards, btnGlow 3s ease-in-out 1s infinite;
+    }
+    .btn:nth-child(1) { animation-delay: 0.1s, 1s; }
+    .btn:nth-child(2) { animation-delay: 0.25s, 1.5s; }
+    .btn:nth-child(3) { animation-delay: 0.4s, 2s; }
+    .btn:hover:not(.disabled) { background: white; transform: scale(1.05); box-shadow: 0 10px 36px rgba(107,45,74,0.4), 0 4px 14px rgba(0,0,0,0.12), 0 0 24px rgba(255,105,180,0.25); animation: btnPop 0s forwards; }
+    .btn:active:not(.disabled) { transform: scale(0.97); }
+    .btn.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .footer {
+      color: #6b2d4a;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    /* Valentine */
+    #valentine .screen-bg { background-image: url('assets/ClosedEnv.png'); }
+    #valentine.step-video .screen-bg { background: #ffb6c1; background-image: none; }
+    #valentine.step-open .screen-bg { background-image: url('assets/EnvOpen.png'); }
+
+    .valentine-content {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .valentine-tap-zone {
+      flex: 1;
+      width: 100%;
+      cursor: pointer;
+    }
+    #valentineVideo {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+    #valentine.step-video #valentineVideo { display: block !important; }
+    #valentine.step-video .valentine-tap-zone { display: none; }
+
+    .back-btn {
+      position: absolute;
+      bottom: max(2rem, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-family: inherit;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      touch-action: manipulation;
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      min-height: 44px;
+      z-index: 100;
+    }
+    .back-btn:hover { background: white; }
+    #valentine.step-video .back-btn { display: block; }
+
+    /* Birthday */
+    #birthday {
+      /* no padding here — children are absolutely positioned */
+    }
+    #birthday .screen-bg {
+      background-image: url('assets/birthdayhome.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 0;
+    }
+    #birthday .screen-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 182, 193, 0.2);
+    }
+
+    /* Content layer: instruction + cake + candles */
+    #birthday .birthday-content-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: max(1.5rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+    }
+    .light-instruction {
+      color: #6b2d4a;
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      font-weight: 700;
+      text-align: center;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+      width: 90%;
+      max-width: 400px;
+    }
+    .birthday-cake-area {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -24%;
+    }
+    .candles-container {
+      position: relative;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .candle-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .candle-body {
+      font-size: clamp(2.5rem, 12vw, 3.5rem);
+      font-weight: bold;
+      color: #f5deb3;
+      text-shadow: 2px 2px 0 #c4a574, -1px -1px 0 #8b6914;
+      line-height: 1;
+      user-select: none;
+    }
+    .candle-wick-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .candle-wick {
+      width: 4px;
+      height: 18px;
+      background: linear-gradient(to bottom, #4a3728, #2d1f16);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .candle-wick:hover { transform: scale(1.15); }
+    .candle-flame {
+      width: 0;
+      height: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 2px;
+    }
+    .candle-unit.lit .candle-flame {
+      width: 14px;
+      height: 22px;
+      opacity: 1;
+      background: radial-gradient(ellipse at 50% 80%, #ff6b00, #ff9500 40%, #ffcc00 70%, transparent);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: 0 0 10px #ff9500;
+    }
+    .perimeter-candles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .perimeter-candles .perimeter-candle {
+      position: absolute;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: center center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .perimeter-candles .candle-wick-wrap { margin-bottom: 2px; }
+    .perimeter-candles .candle-body {
+      width: 6px;
+      height: 14px;
+      background: linear-gradient(to right, #f5deb3, #e8d4a8);
+      border-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+    .perimeter-candles .candle-wick {
+      width: 2px;
+      height: 10px;
+    }
+    .perimeter-candles .candle-unit.lit .candle-flame {
+      width: 8px;
+      height: 12px;
+    }
+    .perimeter-candles .candle-flame { margin-bottom: 1px; }
+
+    /* Message overlay — covers screen, candles stay underneath */
+    #birthday .birthday-message-overlay {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 2rem;
+      padding-bottom: max(2rem, env(safe-area-inset-bottom));
+      z-index: 50;
+      pointer-events: none;
+    }
+    #birthday .birthday-message-overlay.show { pointer-events: auto; display: flex; }
+
+    /* Confetti — above everything */
+    #birthday .confetti-fullscreen {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 60;
+      display: none;
+    }
+    #birthday .confetti-fullscreen.show { display: block; }
+    .confetti-fullscreen .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      top: -2%;
+    }
+    @keyframes confettiFall0 { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(-120px, 120vh) rotate(720deg); opacity: 0.9; } }
+    @keyframes confettiFall1 { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(-80px, 120vh) rotate(720deg); opacity: 0.9; } }
+    @keyframes confettiFall2 { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(-40px, 120vh) rotate(720deg); opacity: 0.9; } }
+    @keyframes confettiFall3 { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(0px, 120vh) rotate(720deg); opacity: 0.9; } }
+    @keyframes confettiFall4 { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(40px, 120vh) rotate(720deg); opacity: 0.9; } }
+    @keyframes confettiFall5 { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(80px, 120vh) rotate(720deg); opacity: 0.9; } }
+    @keyframes confettiFall6 { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(120px, 120vh) rotate(720deg); opacity: 0.9; } }
+
+    /* Back button */
+    #birthday .back-btn {
+      position: absolute;
+      bottom: max(1.5rem, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+
+    .birthday-message {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: #6b2d4a;
+      text-align: center;
+      line-height: 1.6;
+      padding: 1.5rem 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    /* ======== Story Mode ======== */
+    #story { background: #1a1a2e; }
+    .story-stage { position: absolute; inset: 0; overflow: hidden; }
+    .story-bg { position: absolute; inset: 0; z-index: 0; transition: background 0.6s; }
+    .story-title {
+      position: absolute; top: 4%; left: 50%; transform: translateX(-50%);
+      z-index: 10; font-size: clamp(0.85rem, 3.5vw, 1.3rem); font-weight: 700;
+      color: #fff; background: rgba(0,0,0,0.55); padding: 0.4rem 1.2rem;
+      border-radius: 10px; white-space: nowrap; opacity: 0; transition: opacity 0.5s;
+    }
+    .story-title.show { opacity: 1; }
+    .story-char { position: absolute; z-index: 5; opacity: 0; }
+    .story-char img, .story-char svg { width: 130px; height: 190px; display: block; object-fit: contain; }
+    .story-char.big img, .story-char.big svg { width: 180px; height: 260px; }
+    .story-char.speaking img, .story-char.speaking svg { animation: stWob 0.7s ease-in-out infinite; }
+    .story-prop { position:absolute; pointer-events:none; z-index:1; user-select:none; line-height:1; }
+    @keyframes stWob {
+      0%,100% { transform: rotate(-2.5deg) translateY(0); }
+      25% { transform: rotate(2deg) translateY(-4px); }
+      50% { transform: rotate(-1.5deg) translateY(-1px); }
+      75% { transform: rotate(2.5deg) translateY(-3px); }
+    }
+    .story-char.enter-left { animation: stFL .8s ease-out forwards; }
+    .story-char.enter-right { animation: stFR .8s ease-out forwards; }
+    @keyframes stFL { from{transform:translateX(-250px);opacity:0} to{transform:translateX(0);opacity:1} }
+    @keyframes stFR { from{transform:translateX(250px);opacity:0} to{transform:translateX(0);opacity:1} }
+    .story-char.hit { animation: stHit .7s ease-in forwards !important; }
+    @keyframes stHit {
+      0%{transform:rotate(0)} 30%{transform:rotate(25deg) translateY(-15px)}
+      100%{transform:translateX(300px) rotate(720deg);opacity:0}
+    }
+    .story-dlg {
+      position: absolute; bottom: 65%; left: 4%; right: 4%; z-index: 20;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .story-dlg.show { opacity: 1; }
+    .story-dlg-inner {
+      background: rgba(255,255,255,0.95); color: #333; padding: 0.55rem 0.9rem;
+      border-radius: 14px; font-size: clamp(0.7rem, 2.8vw, 0.95rem); text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.18); animation: stDW 2.5s ease-in-out infinite;
+    }
+    .story-dlg-inner .spk { font-weight: 700; color: #888; font-size: 0.8em; display: block; margin-bottom: 2px; }
+    .story-dlg-inner::after { content: ' ▼'; display: inline; font-size: 0.7em; animation: stBlink 1s ease-in-out infinite; }
+    @keyframes stBlink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    @keyframes stDW { 0%,100%{transform:rotate(-0.3deg)} 50%{transform:rotate(0.3deg)} }
+    .story-adv {
+      position: absolute; bottom: 1.5%; left: 50%; transform: translateX(-50%);
+      z-index: 30; color: #fff; font-size: 0.8rem; background: rgba(0,0,0,0.45);
+      padding: 0.4rem 1.1rem; border-radius: 20px; cursor: pointer;
+      touch-action: manipulation; opacity: 0; pointer-events: none; transition: opacity 0.4s;
+    }
+    .story-adv.show { opacity:1; pointer-events:auto; animation: stPu 1.8s ease-in-out infinite; }
+    @keyframes stPu { 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.06)} }
+    .story-arrow {
+      position: absolute; z-index: 8; height: 4px; background: #8B4513;
+      border-radius: 2px; transition: left .35s linear; width: 30px;
+    }
+    .story-arrow::after {
+      content:''; position:absolute; right:-8px; top:-5px;
+      border-left:10px solid #8B4513; border-top:7px solid transparent; border-bottom:7px solid transparent;
+    }
+    .story-magic {
+      position: absolute; z-index: 7; width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,105,180,0.7), rgba(255,182,193,0.3), transparent 70%);
+      pointer-events: none; animation: stMag 1s ease-out forwards;
+    }
+    @keyframes stMag { 0%{transform:translate(-50%,-50%) scale(0);opacity:1} 100%{transform:translate(-50%,-50%) scale(3);opacity:0} }
+    .story-boom {
+      position: absolute; z-index: 7; width: 120px; height: 120px; border-radius: 50%;
+      background: radial-gradient(circle, #fff, #FFD700, #FF6B00, transparent 70%);
+      pointer-events: none; animation: stBm .8s ease-out forwards;
+    }
+    @keyframes stBm { 0%{transform:translate(-50%,-50%) scale(0);opacity:1} 50%{transform:translate(-50%,-50%) scale(2.5);opacity:.8} 100%{transform:translate(-50%,-50%) scale(3.5);opacity:0} }
+    .story-flash { position:absolute; inset:0; z-index:15; background:#fff; opacity:0; pointer-events:none; }
+    @keyframes stFlsh { 0%{opacity:0} 15%{opacity:.8} 100%{opacity:0} }
+    .story-pearl { position: absolute; z-index: 9; transition: left 2s ease, bottom 2s ease; }
+    .story-pearl svg { width: 35px; height: 35px; animation: stWob 1.2s ease-in-out infinite, stGl 2s ease-in-out infinite; }
+    @keyframes stGl { 0%,100%{filter:drop-shadow(0 0 6px rgba(255,182,193,.4))} 50%{filter:drop-shadow(0 0 18px rgba(255,182,193,.9))} }
+    .story-heart { position:absolute; z-index:6; pointer-events:none; opacity:0; animation: stHF var(--dur) linear var(--del) forwards; }
+    @keyframes stHF { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(110vh) rotate(360deg);opacity:.5} }
+    #story .back-btn {
+      z-index: 50; position: absolute;
+      top: max(.5rem, env(safe-area-inset-top)); right: .5rem;
+      bottom: auto; left: auto; transform: none;
+      padding: .35rem .9rem; font-size: .75rem; min-height: auto;
+      background: rgba(0,0,0,.35); color: #fff;
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 1px 4px rgba(0,0,0,.3);
+    }
+    #story .back-btn:hover { background: rgba(0,0,0,.55); }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="phone-content">
+
+      <!-- Landing -->
+      <div id="landing" class="screen active">
+        <div class="screen-bg"></div>
+        <h1 class="title">For Maddy Cole, Mi Amor 💖</h1>
+        <div class="buttons">
+          <button class="btn" data-go="valentine">Valentines Day</button>
+          <button class="btn" data-go="birthday">Birthday</button>
+          <button class="btn" data-go="story">Story Mode</button>
+        </div>
+        <p class="footer">Made with love by yours truly, Jake</p>
+      </div>
+
+      <!-- Valentine -->
+      <div id="valentine" class="screen">
+        <div class="screen-bg"></div>
+        <div class="valentine-content">
+          <div class="valentine-tap-zone" id="valentineTapZone"></div>
+          <video id="valentineVideo" src="assets/OpeningEnv.mp4" playsinline></video>
+        </div>
+        <button class="back-btn" data-back>Back</button>
+      </div>
+
+      <!-- Birthday -->
+      <div id="birthday" class="screen">
+        <div class="screen-bg"></div>
+        <div class="birthday-content-wrap">
+          <p class="light-instruction">Tap each wick to light all the candles</p>
+          <div class="birthday-cake-area">
+            <div class="perimeter-candles" id="perimeterCandles"></div>
+            <div class="candles-container" id="candlesContainer">
+              <div class="candle-unit" id="candle2">
+                <div class="candle-wick-wrap">
+                  <div class="candle-flame"></div>
+                  <div class="candle-wick" data-wick></div>
+                </div>
+                <span class="candle-body">2</span>
+              </div>
+              <div class="candle-unit" id="candle6">
+                <div class="candle-wick-wrap">
+                  <div class="candle-flame"></div>
+                  <div class="candle-wick" data-wick></div>
+                </div>
+                <span class="candle-body">6</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="confetti-fullscreen" id="confettiFullscreen"></div>
+        <div class="birthday-message-overlay" id="birthdayMessageOverlay">
+          <p class="birthday-message">Happy Birthday, Maddy 🎂<br>You light up my life every day :D</p>
+          <button class="back-btn" data-back style="margin-top: 2rem;">Back</button>
+        </div>
+        <button class="back-btn" id="birthdayBackBtn" data-back>Back</button>
+      </div>
+
+      <!-- Story Mode -->
+      <div id="story" class="screen">
+        <div class="story-stage">
+          <div class="story-bg" id="storyBg"></div>
+          <div id="storyChars"></div>
+          <div class="story-title" id="storyTitle"></div>
+          <div class="story-dlg" id="storyDlg">
+            <div class="story-dlg-inner"><span class="spk" id="storySpk"></span><span id="storyTxt"></span></div>
+          </div>
+          <div class="story-flash" id="storyFlash"></div>
+          <div class="story-adv" id="storyAdv">Tap to continue ›</div>
+        </div>
+        <button class="back-btn" id="storyBack" data-back>Back</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const screens = {
+      landing: document.getElementById('landing'),
+      valentine: document.getElementById('valentine'),
+      birthday: document.getElementById('birthday'),
+      story: document.getElementById('story')
+    };
+    const valentineVideo = document.getElementById('valentineVideo');
+    const valentineTapZone = document.getElementById('valentineTapZone');
+    const birthdayMessageOverlay = document.getElementById('birthdayMessageOverlay');
+
+    function showScreen(name) {
+      Object.values(screens).forEach(s => s.classList.remove('active'));
+      screens[name].classList.add('active');
+    }
+
+    function goBack() {
+      showScreen('landing');
+      valentineVideo.pause();
+      valentineVideo.currentTime = 0;
+      valentineVideo.style.display = 'none';
+      document.getElementById('valentine').classList.remove('step-video', 'step-open');
+      valentineTapZone.style.display = 'block';
+      document.querySelector('#valentine .back-btn').style.display = 'block';
+
+      document.getElementById('birthday').classList.remove('show-message');
+      birthdayMessageOverlay.classList.remove('show');
+      document.getElementById('confettiFullscreen').classList.remove('show');
+      document.getElementById('confettiFullscreen').innerHTML = '';
+      document.getElementById('candle2').classList.remove('lit');
+      document.getElementById('candle6').classList.remove('lit');
+      document.querySelectorAll('.perimeter-candle').forEach(c => c.classList.remove('lit'));
+      document.getElementById('birthdayBackBtn').style.display = 'block';
+      birthdayAdvanced = false;
+
+      storyCleanup();
+    }
+
+    document.querySelectorAll('[data-go]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.go === 'story') { startStory(); }
+        else { showScreen(btn.dataset.go); }
+      });
+    });
+    document.querySelectorAll('[data-back]').forEach(btn => {
+      btn.addEventListener('click', goBack);
+    });
+
+    valentineTapZone.addEventListener('click', () => {
+      document.getElementById('valentine').classList.add('step-video');
+      valentineTapZone.style.display = 'none';
+      valentineVideo.style.display = 'block';
+      valentineVideo.play();
+    });
+    valentineVideo.addEventListener('ended', () => {
+      document.getElementById('valentine').classList.remove('step-video');
+      document.getElementById('valentine').classList.add('step-open');
+      valentineVideo.style.display = 'none';
+    });
+
+    const candle2 = document.getElementById('candle2');
+    const candle6 = document.getElementById('candle6');
+    const perimeterCandles = document.getElementById('perimeterCandles');
+    const PERIMETER_COUNT = 12;
+    const CAKE_RADIUS_X = 23;
+    const CAKE_RADIUS_Y = 13;
+
+    for (let i = 0; i < PERIMETER_COUNT; i++) {
+      const angle = (Math.PI * 2 * i) / PERIMETER_COUNT - Math.PI / 2;
+      const candle = document.createElement('div');
+      candle.className = 'perimeter-candle candle-unit';
+      candle.innerHTML = '<div class="candle-wick-wrap"><div class="candle-flame"></div><div class="candle-wick" data-wick></div></div><div class="candle-body"></div>';
+      candle.style.left = (50 + CAKE_RADIUS_X * Math.cos(angle)) + '%';
+      candle.style.top = (50 + CAKE_RADIUS_Y * Math.sin(angle)) + '%';
+      candle.style.transform = 'translate(-50%, -50%) rotate(' + (angle * 180 / Math.PI + 90) + 'deg)';
+      perimeterCandles.appendChild(candle);
+    }
+
+    let birthdayAdvanced = false;
+    function allCandlesLit() {
+      if (!candle2.classList.contains('lit') || !candle6.classList.contains('lit')) return false;
+      return document.querySelectorAll('.perimeter-candle:not(.lit)').length === 0;
+    }
+
+    function tryAdvanceBirthday() {
+      if (birthdayAdvanced || !allCandlesLit()) return;
+      birthdayAdvanced = true;
+
+      document.getElementById('birthday').classList.add('show-message');
+      birthdayMessageOverlay.classList.add('show');
+      document.getElementById('birthdayBackBtn').style.display = 'none';
+
+      const confettiFullscreen = document.getElementById('confettiFullscreen');
+      confettiFullscreen.innerHTML = '';
+      confettiFullscreen.classList.add('show');
+
+      const fillColors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6b9d', '#c44dff', '#ff9500', '#34c759', '#ff4757', '#ffa502', '#2ed573', '#1e90ff', '#ff6348', '#eccc68'];
+      const driftAnims = ['confettiFall0', 'confettiFall1', 'confettiFall2', 'confettiFall3', 'confettiFall4', 'confettiFall5', 'confettiFall6'];
+      for (let wave = 0; wave < 3; wave++) {
+        for (let i = 0; i < 150; i++) {
+          const c = document.createElement('div');
+          c.className = 'confetti-piece';
+          c.style.left = Math.random() * 100 + '%';
+          const duration = (1.5 + Math.random() * 2.5).toFixed(1);
+          const delay = (wave * 1.5 + Math.random() * 2).toFixed(2);
+          c.style.animation = driftAnims[Math.floor(Math.random() * driftAnims.length)] + ' ' + duration + 's linear ' + delay + 's forwards';
+          c.style.background = fillColors[Math.floor(Math.random() * fillColors.length)];
+          const size = 4 + Math.floor(Math.random() * 8);
+          c.style.width = size + 'px';
+          c.style.height = size + 'px';
+          c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          c.style.opacity = (0.7 + Math.random() * 0.3).toFixed(2);
+          confettiFullscreen.appendChild(c);
+        }
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const wick = e.target.closest('.candle-wick');
+      if (!wick) return;
+      const candleUnit = wick.closest('.candle-unit');
+      if (candleUnit.classList.contains('lit')) return;
+      candleUnit.classList.add('lit');
+      tryAdvanceBirthday();
+    });
+
+    /* ======== Story Mode Engine ======== */
+    var _stBg = document.getElementById('storyBg');
+    var _stCh = document.getElementById('storyChars');
+    var _stTtl = document.getElementById('storyTitle');
+    var _stDlg = document.getElementById('storyDlg');
+    var _stSpk = document.getElementById('storySpk');
+    var _stTxt = document.getElementById('storyTxt');
+    var _stAdv = document.getElementById('storyAdv');
+    var _stFl = document.getElementById('storyFlash');
+    var _stIdx = 0, _stTm = [], _stRj = [];
+    var _tapRes = null, _curSpk = null;
+    var _ID = {walter:'wa',kitty:'ki',katniss:'ka',maddy:'ma'};
+
+    /*
+     * Character images — drop your images into the assets/ folder:
+     *   assets/walter.png   — Walter White
+     *   assets/kitty.png    — Hello Kitty
+     *   assets/katniss.png  — Katniss Everdeen
+     *   assets/clicker.png  — Clicker from The Last of Us
+     *   assets/maddy.png    — Maddy Cole
+     * The pearl stays as an SVG glow effect.
+     */
+    var _SV = {
+      walter:  '<img src="assets/walter.png" alt="Walter White" draggable="false">',
+      kitty:   '<img src="assets/Kitty.png" alt="Hello Kitty" draggable="false">',
+      katniss: '<img src="assets/katniss.png" alt="Katniss" draggable="false">',
+      clicker: '<img src="assets/Clicker.png" alt="Clicker" draggable="false">',
+      pearl:   '<svg viewBox="0 0 40 40"><defs><radialGradient id="pg"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#E8D5E0"/><stop offset="100%" stop-color="#D4A5BD"/></radialGradient></defs><circle cx="20" cy="20" r="15" fill="url(#pg)"/><ellipse cx="14" cy="14" rx="5" ry="3" fill="rgba(255,255,255,.6)" transform="rotate(-30 14 14)"/></svg>',
+      maddy:   '<img src="assets/Maddy.png" alt="Maddy" draggable="false">'
+    };
+    var _NM = {walter:'Walter White',kitty:'Hello Kitty',katniss:'Katniss',maddy:'Maddy'};
+    var _NC = {walter:'#4CAF50',kitty:'#FF69B4',katniss:'#FFB347',maddy:'#8B5CF6'};
+    var _WS = {walter:'.7s',kitty:'.55s',katniss:'.8s',clicker:'.45s',maddy:'.65s'};
+
+    function _w(ms){return new Promise(function(r,j){_stTm.push(setTimeout(r,ms));_stRj.push(j);})}
+
+    function _clr(){
+      _stTm.forEach(clearTimeout);_stTm=[];
+      _stRj.forEach(function(f){try{f('x')}catch(e){}});_stRj=[];
+      _stCh.innerHTML='';
+      _stDlg.classList.remove('show');
+      _stTtl.classList.remove('show');
+      _stAdv.classList.remove('show');
+      _stFl.style.animation='';
+      _tapRes=null;_curSpk=null;
+    }
+    function _ac(id,type,x,b){
+      var el=document.createElement('div');el.className='story-char';el.id='sc-'+id;
+      el.innerHTML=_SV[type];el.style.left=x+'%';el.style.bottom=(b||18)+'%';
+      var inner=el.querySelector('img')||el.querySelector('svg');
+      if(inner&&_WS[type])inner.style.animationDuration=_WS[type];
+      _stCh.appendChild(el);return el;
+    }
+    function _sc(id,d){var el=document.getElementById('sc-'+id);if(el)el.classList.add('enter-'+d);}
+    function _hc(id){var el=document.getElementById('sc-'+id);if(el){el.classList.add('hit');setTimeout(function(){el.remove()},700);}}
+    function _say(who,t){
+      /* Remove speaking from previous character */
+      if(_curSpk){var prev=document.getElementById('sc-'+_curSpk);if(prev)prev.classList.remove('speaking');}
+      /* Add speaking wobble to current character */
+      var cid=_ID[who];
+      if(cid){var el=document.getElementById('sc-'+cid);if(el)el.classList.add('speaking');}
+      _curSpk=cid;
+      _stSpk.textContent=_NM[who]||'';_stSpk.style.color=_NC[who]||'#888';_stTxt.textContent=t;_stDlg.classList.add('show');
+    }
+    function _unsay(){
+      if(_curSpk){var prev=document.getElementById('sc-'+_curSpk);if(prev)prev.classList.remove('speaking');}
+      _curSpk=null;
+      _stDlg.classList.remove('show');
+    }
+    function _ttl(t){_stTtl.textContent=t;_stTtl.classList.add('show');}
+
+    /* Tap anywhere to advance dialogue OR scenes */
+    function _tap(){return new Promise(function(res,rej){_stRj.push(rej);_tapRes=res;});}
+    document.getElementById('story').querySelector('.story-stage').addEventListener('click',function(e){
+      if(e.target.closest('#storyBack'))return;
+      if(_tapRes){var r=_tapRes;_tapRes=null;r();return;}
+      if(_stAdv.classList.contains('show')){
+        _stIdx++;
+        if(_stIdx>=_SCENES.length){_stIdx=0;goBack();}
+        else{_playScene();}
+      }
+    });
+
+    function _arrw(fx,fy,tx){
+      var a=document.createElement('div');a.className='story-arrow';
+      a.style.top=fy+'%';a.style.left=fx+'%';
+      _stCh.appendChild(a);a.offsetHeight;a.style.left=tx+'%';
+      setTimeout(function(){a.remove()},450);
+    }
+    function _mag(x,y){
+      var m=document.createElement('div');m.className='story-magic';
+      m.style.left=x+'%';m.style.top=y+'%';
+      _stCh.appendChild(m);setTimeout(function(){m.remove()},1100);
+    }
+    function _boom(x,y){
+      var e=document.createElement('div');e.className='story-boom';
+      e.style.left=x+'%';e.style.top=y+'%';
+      _stCh.appendChild(e);
+      _stFl.style.animation='stFlsh .5s ease-out forwards';
+      setTimeout(function(){e.remove();_stFl.style.animation='';},900);
+    }
+    function _hrt(){
+      var em=['🎉','🎊','🥳','🎆','🎇','⭐','🌟','🎶','🏆','👑'];
+      for(var i=0;i<80;i++){
+        var h=document.createElement('div');h.className='story-heart';
+        h.textContent=em[Math.floor(Math.random()*em.length)];
+        h.style.left=Math.random()*90+5+'%';h.style.top='-5%';
+        h.style.setProperty('--dur',(2+Math.random()*3)+'s');
+        h.style.setProperty('--del',(Math.random()*4)+'s');
+        h.style.fontSize=(1+Math.random()*1.5)+'rem';
+        _stCh.appendChild(h);
+      }
+    }
+    function _prl(x,b){
+      var p=document.createElement('div');p.className='story-pearl';p.id='sc-pearl';
+      p.innerHTML=_SV.pearl;p.style.left=x+'%';p.style.bottom=b+'%';
+      _stCh.appendChild(p);return p;
+    }
+    function _env(items){
+      items.forEach(function(p){
+        var d=document.createElement('div');d.className='story-prop';
+        if(p.t)d.textContent=p.t;
+        if(p.s)d.style.fontSize=p.s;
+        d.style.left=(p.x||0)+'%';d.style.bottom=(p.y||0)+'%';
+        if(p.c)d.style.cssText+=';'+p.c;
+        _stCh.appendChild(d);
+      });
+    }
+
+    /* ---- 7 Scenes (dense environments) ---- */
+    var _SCENES=[
+      /* Scene 1: The Quest — sunny meadow */
+      async function(){
+        _stBg.style.background='linear-gradient(to bottom, #6CB4EE 0%, #87CEEB 30%, #87CEEB 42%, #a8d8a8 42%, #6BBF6B 50%, #4CAF50 50%, #3a8a3a 70%, #2d6d2d)';
+        _env([
+          /* sky */
+          {x:78,y:75,t:'☀️',s:'5rem'},
+          {x:5,y:68,t:'☁️',s:'4rem'},{x:35,y:74,t:'☁️',s:'3rem'},{x:60,y:70,t:'☁️',s:'2.5rem'},
+          {x:15,y:60,t:'🐦',s:'1.5rem'},{x:70,y:64,t:'🐦',s:'1.3rem'},
+          /* distant hills */
+          {x:0,y:42,c:'width:200px;height:60px;background:#5aaa5a;border-radius:50% 60% 0 0;opacity:.5'},
+          {x:50,y:44,c:'width:180px;height:50px;background:#4a9a4a;border-radius:60% 50% 0 0;opacity:.5'},
+          /* mid trees */
+          {x:-2,y:30,t:'🌳',s:'5rem'},{x:85,y:32,t:'🌳',s:'5.5rem'},{x:42,y:35,t:'🌳',s:'4rem'},
+          /* bushes */
+          {x:0,y:14,c:'width:90px;height:50px;background:#3a8a3a;border-radius:50% 50% 5% 5%'},
+          {x:35,y:12,c:'width:70px;height:40px;background:#348634;border-radius:50% 50% 5% 5%'},
+          {x:75,y:15,c:'width:85px;height:45px;background:#3a8a3a;border-radius:50% 50% 5% 5%'},
+          /* flowers */
+          {x:3,y:5,t:'🌸',s:'2.2rem'},{x:18,y:3,t:'🌼',s:'2rem'},{x:35,y:6,t:'🌷',s:'1.8rem'},
+          {x:52,y:4,t:'🌸',s:'2rem'},{x:68,y:5,t:'🌼',s:'2.2rem'},{x:85,y:3,t:'🌷',s:'1.8rem'},
+          {x:10,y:8,t:'🌻',s:'2.5rem'},{x:60,y:9,t:'🌻',s:'2.2rem'},
+          /* butterflies */
+          {x:25,y:22,t:'🦋',s:'1.8rem'},{x:70,y:28,t:'🦋',s:'1.5rem'}
+        ]);
+        _ttl('Chapter 1: The Quest');
+        await _w(1000);
+        _ac('wa','walter',5,16);_sc('wa','left');
+        await _w(1200);
+        _say('walter','At last!! I have done it!! I have synthesized a pearl... of extraordinary purity.');
+        await _tap();
+        _say('walter','Jesse could never match my chemistry, that dumb bitch.');
+        await _tap();
+        _ac('ki','kitty',55,18);_sc('ki','right');
+        await _w(800);
+        _ac('ka','katniss',30,16);_sc('ka','left');
+        await _w(1000);
+        _say('katniss','A pearl? Who is it for?');
+        await _tap();
+        _say('walter','Maddy Cole. We deliver it together. As a FAMILY.');
+        await _tap();
+        _say('katniss','I volunteer as tribute!');
+        await _tap();
+        _unsay();
+      },
+
+      /* Scene 2: Into the Wild — forest path */
+      async function(){
+        _stBg.style.background='linear-gradient(to bottom, #2a4a2a 0%, #1d3d1d 20%, #1a3a1a 50%, #142e14 75%, #0d250d)';
+        _env([
+          /* dense canopy top */
+          {x:0,y:78,c:'width:120px;height:80px;background:radial-gradient(ellipse,#1a4a1a,transparent 70%);opacity:.7'},
+          {x:30,y:82,c:'width:150px;height:90px;background:radial-gradient(ellipse,#1d4d1d,transparent 70%);opacity:.6'},
+          {x:65,y:80,c:'width:130px;height:85px;background:radial-gradient(ellipse,#1a4a1a,transparent 70%);opacity:.7'},
+          /* tall tree trunks */
+          {x:2,y:20,c:'width:14px;height:350px;background:linear-gradient(#2a1a0a,#3a2a1a);border-radius:4px'},
+          {x:22,y:25,c:'width:12px;height:300px;background:linear-gradient(#2a1a0a,#3a2a1a);border-radius:4px'},
+          {x:55,y:22,c:'width:14px;height:320px;background:linear-gradient(#2a1a0a,#3a2a1a);border-radius:4px'},
+          {x:80,y:18,c:'width:16px;height:380px;background:linear-gradient(#2a1a0a,#3a2a1a);border-radius:4px'},
+          {x:92,y:20,c:'width:12px;height:340px;background:linear-gradient(#2a1a0a,#3a2a1a);border-radius:4px'},
+          /* tree tops */
+          {x:-2,y:55,t:'🌲',s:'6rem'},{x:18,y:52,t:'🌲',s:'5.5rem'},{x:50,y:56,t:'🌲',s:'5rem'},
+          {x:75,y:50,t:'🌲',s:'6.5rem'},{x:90,y:54,t:'🌲',s:'5rem'},
+          /* mid bushes */
+          {x:5,y:18,c:'width:80px;height:40px;background:#1a3a1a;border-radius:50%'},
+          {x:40,y:15,c:'width:90px;height:35px;background:#143014;border-radius:50%'},
+          {x:70,y:17,c:'width:75px;height:38px;background:#1a3a1a;border-radius:50%'},
+          /* ground path */
+          {x:20,y:0,c:'width:60%;height:8%;background:linear-gradient(90deg,transparent,rgba(101,67,33,.35),transparent);border-radius:50%'},
+          /* leaves & detail */
+          {x:5,y:5,t:'🍃',s:'2rem'},{x:45,y:7,t:'🍃',s:'1.8rem'},{x:85,y:4,t:'🍃',s:'2.2rem'},
+          /* fog layers */
+          {x:0,y:10,c:'width:100%;height:15%;background:linear-gradient(90deg,transparent 5%,rgba(30,60,30,.15) 50%,transparent 95%)'},
+          {x:0,y:30,c:'width:100%;height:10%;background:linear-gradient(90deg,transparent 10%,rgba(30,60,30,.1) 50%,transparent 90%)'}
+        ]);
+        _ttl('Chapter 2: Into the Wild');
+        await _w(800);
+        _ac('wa','walter',0,16);_sc('wa','left');
+        await _w(300);
+        _ac('ki','kitty',25,18);_sc('ki','left');
+        await _w(300);
+        _ac('ka','katniss',50,16);_sc('ka','left');
+        await _w(1200);
+        _say('katniss','*click... click... click*... Do you hear that?');
+        await _tap();
+        _say('kitty','That doesn\'t sound friendly... \u2728');
+        await _tap();
+        _say('katniss','Clickers. Stay behind me.');
+        await _tap();
+        _unsay();
+      },
+
+      /* Scene 3: Ambush — Katniss shoots clickers */
+      async function(){
+        _stBg.style.background='linear-gradient(to bottom, #2a4a2a 0%, #1e3a1e 30%, #142e14 60%, #0a1a0a)';
+        _env([
+          /* dense canopy */
+          {x:0,y:80,c:'width:160px;height:100px;background:radial-gradient(ellipse,#1a3a1a,transparent 70%);opacity:.8'},
+          {x:40,y:84,c:'width:180px;height:90px;background:radial-gradient(ellipse,#153015,transparent 70%);opacity:.7'},
+          {x:70,y:78,c:'width:150px;height:95px;background:radial-gradient(ellipse,#1a3a1a,transparent 70%);opacity:.8'},
+          /* trunks */
+          {x:0,y:15,c:'width:16px;height:400px;background:#2a1a0a;border-radius:4px'},
+          {x:15,y:20,c:'width:12px;height:350px;background:#251508;border-radius:4px'},
+          {x:45,y:18,c:'width:18px;height:380px;background:#2a1a0a;border-radius:4px'},
+          {x:65,y:22,c:'width:14px;height:340px;background:#251508;border-radius:4px'},
+          {x:88,y:15,c:'width:16px;height:400px;background:#2a1a0a;border-radius:4px'},
+          /* tree icons */
+          {x:-4,y:52,t:'🌲',s:'6.5rem'},{x:40,y:56,t:'🌲',s:'5.5rem'},{x:82,y:50,t:'🌲',s:'6rem'},
+          /* fallen log */
+          {x:14,y:8,c:'width:100px;height:14px;background:#3a2a1a;border-radius:6px;transform:rotate(-4deg)'},
+          /* bushes */
+          {x:5,y:12,c:'width:70px;height:35px;background:#0d200d;border-radius:50% 50% 5% 5%'},
+          {x:50,y:10,c:'width:80px;height:38px;background:#0d200d;border-radius:50% 50% 5% 5%'},
+          {x:80,y:14,c:'width:60px;height:30px;background:#0d200d;border-radius:50% 50% 5% 5%'},
+          /* ground litter */
+          {x:8,y:4,t:'🍂',s:'2rem'},{x:30,y:3,t:'🍂',s:'1.8rem'},{x:55,y:5,t:'🍂',s:'1.6rem'},{x:75,y:4,t:'🍂',s:'2rem'},{x:92,y:3,t:'🍂',s:'1.5rem'},
+          /* fog */
+          {x:0,y:20,c:'width:100%;height:12%;background:linear-gradient(90deg,transparent,rgba(20,40,20,.2),transparent)'}
+        ]);
+        _ttl('Chapter 3: Ambush!');
+        await _w(600);
+        _ac('wa','walter',0,16);_sc('wa','left');
+        _ac('ki','kitty',14,18);_sc('ki','left');
+        _ac('ka','katniss',28,16);_sc('ka','left');
+        await _w(900);
+        _ac('c1','clicker',60,16);_sc('c1','right');
+        await _w(500);
+        _ac('c2','clicker',75,13);_sc('c2','right');
+        await _w(800);
+        _say('katniss','You picked the wrong squad. Aim for the head.');
+        await _tap();
+        _unsay();await _w(300);
+        _arrw(36,68,62);await _w(400);
+        _hc('c1');
+        await _w(700);
+        _arrw(36,66,76);await _w(400);
+        _hc('c2');
+        await _w(800);
+        _say('walter','Precise. Beautiful trajectory.');
+        await _tap();
+        _unsay();
+      },
+
+      /* Scene 4: Dark Woods — Hello Kitty's magic */
+      async function(){
+        _stBg.style.background='linear-gradient(to bottom, #050510 0%, #0a0a1e 25%, #0e0e28 50%, #0a0a20 75%, #060618)';
+        _env([
+          /* heavy canopy */
+          {x:0,y:82,c:'width:200px;height:120px;background:radial-gradient(ellipse,#0a0a18,transparent 70%);opacity:.9'},
+          {x:35,y:86,c:'width:220px;height:110px;background:radial-gradient(ellipse,#080816,transparent 70%);opacity:.85'},
+          {x:65,y:80,c:'width:190px;height:115px;background:radial-gradient(ellipse,#0a0a18,transparent 70%);opacity:.9'},
+          /* thick trunks */
+          {x:3,y:10,c:'width:18px;height:450px;background:linear-gradient(#151525,#0d0d1d);border-radius:5px'},
+          {x:18,y:15,c:'width:14px;height:380px;background:linear-gradient(#131322,#0b0b1a);border-radius:4px'},
+          {x:35,y:12,c:'width:16px;height:420px;background:linear-gradient(#151525,#0d0d1d);border-radius:5px'},
+          {x:58,y:18,c:'width:12px;height:360px;background:linear-gradient(#131322,#0b0b1a);border-radius:4px'},
+          {x:72,y:10,c:'width:18px;height:450px;background:linear-gradient(#151525,#0d0d1d);border-radius:5px'},
+          {x:90,y:14,c:'width:14px;height:400px;background:linear-gradient(#131322,#0b0b1a);border-radius:4px'},
+          /* branches */
+          {x:3,y:50,c:'width:50px;height:4px;background:#121222;border-radius:2px;transform:rotate(15deg)'},
+          {x:70,y:45,c:'width:60px;height:4px;background:#121222;border-radius:2px;transform:rotate(-10deg)'},
+          {x:35,y:55,c:'width:40px;height:3px;background:#101020;border-radius:2px;transform:rotate(8deg)'},
+          /* mushrooms */
+          {x:8,y:6,t:'🍄',s:'2.5rem'},{x:28,y:4,t:'🍄',s:'2rem'},{x:52,y:5,t:'🍄',s:'2.2rem'},
+          {x:78,y:7,t:'🍄',s:'1.8rem'},{x:92,y:4,t:'🍄',s:'2rem'},
+          /* glowing eyes */
+          {x:12,y:55,t:'👀',s:'1.2rem',c:'opacity:.3'},{x:42,y:48,t:'👀',s:'1rem',c:'opacity:.25'},
+          {x:65,y:52,t:'👀',s:'1.1rem',c:'opacity:.2'},{x:85,y:42,t:'👀',s:'.9rem',c:'opacity:.2'},
+          {x:25,y:38,t:'👀',s:'.8rem',c:'opacity:.15'},
+          /* ground roots */
+          {x:0,y:10,c:'width:80px;height:6px;background:#0d0d1d;border-radius:3px;transform:rotate(5deg)'},
+          {x:60,y:9,c:'width:70px;height:5px;background:#0b0b1a;border-radius:3px;transform:rotate(-3deg)'},
+          /* heavy fog */
+          {x:0,y:0,c:'width:100%;height:25%;background:linear-gradient(transparent,rgba(8,8,20,.6));z-index:2'},
+          {x:0,y:20,c:'width:100%;height:15%;background:linear-gradient(90deg,transparent,rgba(10,10,25,.25),transparent)'},
+          {x:0,y:40,c:'width:100%;height:10%;background:linear-gradient(90deg,transparent 10%,rgba(10,10,25,.15) 50%,transparent 90%)'}
+        ]);
+        _ttl('Chapter 4: The Dark Woods');
+        await _w(800);
+        _ac('ka','katniss',12,16);_sc('ka','left');
+        _ac('wa','walter',28,16);_sc('wa','left');
+        _ac('ki','kitty',44,18);_sc('ki','left');
+        await _w(900);
+        _ac('c1','clicker',0,14);_sc('c1','left');
+        _ac('c2','clicker',62,16);_sc('c2','right');
+        _ac('c3','clicker',78,20);_sc('c3','right');
+        await _w(1000);
+        _say('kitty','My turn! The power of cute aggression! \u2728');
+        await _tap();
+        _unsay();await _w(300);
+        _mag(48,52);
+        await _w(400);
+        _hc('c1');_hc('c2');_hc('c3');
+        await _w(1200);
+        _say('katniss','Cute AND deadly. I approve.');
+        await _tap();
+        _unsay();
+      },
+
+      /* Scene 5: The Chemistry — Walter's cave */
+      async function(){
+        _stBg.style.background='linear-gradient(to bottom, #111 0%, #1a1a1a 20%, #222 50%, #1a1a1a 80%, #151515)';
+        _env([
+          /* cave ceiling stalactites */
+          {x:5,y:88,c:'width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-top:70px solid #3a3a3a'},
+          {x:18,y:90,c:'width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:50px solid #444'},
+          {x:32,y:86,c:'width:0;height:0;border-left:25px solid transparent;border-right:25px solid transparent;border-top:80px solid #3a3a3a'},
+          {x:48,y:89,c:'width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:55px solid #404040'},
+          {x:62,y:85,c:'width:0;height:0;border-left:28px solid transparent;border-right:28px solid transparent;border-top:90px solid #3a3a3a'},
+          {x:78,y:88,c:'width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:60px solid #444'},
+          {x:92,y:87,c:'width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-top:75px solid #3a3a3a'},
+          /* cave walls */
+          {x:0,y:0,c:'width:8%;height:100%;background:linear-gradient(90deg,rgba(40,40,40,.6),transparent)'},
+          {x:92,y:0,c:'width:8%;height:100%;background:linear-gradient(270deg,rgba(40,40,40,.6),transparent)'},
+          /* rock formations */
+          {x:5,y:6,c:'width:70px;height:40px;background:#444;border-radius:40% 50% 45% 55%'},
+          {x:25,y:4,c:'width:50px;height:30px;background:#3a3a3a;border-radius:50% 45% 55% 40%'},
+          {x:55,y:7,c:'width:60px;height:35px;background:#4a4a4a;border-radius:45% 55% 40% 50%'},
+          {x:80,y:5,c:'width:55px;height:32px;background:#444;border-radius:50% 40% 55% 45%'},
+          /* puddles */
+          {x:15,y:1,c:'width:50px;height:8px;background:rgba(100,120,140,.2);border-radius:50%'},
+          {x:65,y:2,c:'width:40px;height:6px;background:rgba(100,120,140,.15);border-radius:50%'},
+          /* bones & debris */
+          {x:10,y:3,t:'🦴',s:'2rem'},{x:45,y:2,t:'🦴',s:'1.8rem'},{x:85,y:3,t:'🦴',s:'1.6rem'},
+          {x:35,y:1,t:'💀',s:'1.5rem'},{x:70,y:1,t:'🕸️',s:'2rem'},
+          /* drips */
+          {x:30,y:60,t:'💧',s:'1rem',c:'opacity:.3'},{x:65,y:55,t:'💧',s:'.9rem',c:'opacity:.25'},
+          /* ambient darkness */
+          {x:0,y:0,c:'width:100%;height:20%;background:linear-gradient(transparent,rgba(0,0,0,.3));z-index:2'},
+          {x:0,y:50,c:'width:100%;height:8%;background:linear-gradient(90deg,transparent,rgba(0,0,0,.1),transparent)'}
+        ]);
+        _ttl('Chapter 5: The Chemistry');
+        await _w(800);
+        _ac('ka','katniss',0,16);_sc('ka','left');
+        _ac('ki','kitty',14,18);_sc('ki','left');
+        _ac('wa','walter',28,16);_sc('wa','left');
+        await _w(700);
+        _ac('c1','clicker',52,16);_sc('c1','right');
+        _ac('c2','clicker',62,12);_sc('c2','right');
+        _ac('c3','clicker',72,18);_sc('c3','right');
+        _ac('c4','clicker',82,14);_sc('c4','right');
+        await _w(1000);
+        _say('walter','Stand back. I am the one who knocks.');
+        await _tap();
+        _unsay();await _w(400);
+        _boom(56,46);
+        await _w(300);
+        _hc('c1');_hc('c2');_hc('c3');_hc('c4');
+        await _w(1400);
+        _say('kitty','Yeah!! Science!! \u2728');
+        await _tap();
+        _unsay();
+      },
+
+      /* Scene 6: The Final Stand — ruins */
+      async function(){
+        _stBg.style.background='linear-gradient(to bottom, #0a0505 0%, #1a0808 20%, #2a1010 45%, #1a0808 70%, #0d0404)';
+        _env([
+          /* ruined walls */
+          {x:0,y:15,c:'width:30px;height:250px;background:linear-gradient(#333,#222);border-radius:3px'},
+          {x:8,y:20,c:'width:25px;height:200px;background:#2a2a2a;border-radius:3px;transform:rotate(5deg)'},
+          {x:85,y:18,c:'width:28px;height:230px;background:linear-gradient(#333,#222);border-radius:3px;transform:rotate(-3deg)'},
+          {x:92,y:15,c:'width:22px;height:260px;background:#2a2a2a;border-radius:3px'},
+          /* broken pillars */
+          {x:20,y:12,c:'width:20px;height:120px;background:#383838;border-radius:3px;transform:rotate(8deg)'},
+          {x:65,y:14,c:'width:18px;height:100px;background:#353535;border-radius:3px;transform:rotate(-6deg)'},
+          /* fires scattered */
+          {x:3,y:28,t:'🔥',s:'3.5rem'},{x:30,y:35,t:'🔥',s:'2.8rem'},{x:50,y:25,t:'🔥',s:'2.2rem'},
+          {x:75,y:30,t:'🔥',s:'3.8rem'},{x:92,y:22,t:'🔥',s:'2.5rem'},
+          {x:15,y:12,t:'🔥',s:'2rem'},{x:60,y:10,t:'🔥',s:'2.5rem'},
+          /* rubble */
+          {x:5,y:5,c:'width:50px;height:25px;background:#2a1515;border-radius:30%'},
+          {x:25,y:4,c:'width:40px;height:20px;background:#221010;border-radius:35%'},
+          {x:48,y:6,c:'width:55px;height:28px;background:#2a1515;border-radius:30%'},
+          {x:72,y:5,c:'width:45px;height:22px;background:#221010;border-radius:35%'},
+          {x:90,y:4,c:'width:35px;height:18px;background:#2a1515;border-radius:30%'},
+          /* smoke */
+          {x:10,y:50,c:'width:100px;height:60px;background:radial-gradient(ellipse,rgba(60,30,30,.2),transparent 70%)'},
+          {x:60,y:55,c:'width:120px;height:70px;background:radial-gradient(ellipse,rgba(60,30,30,.15),transparent 70%)'},
+          /* red haze */
+          {x:0,y:0,c:'width:100%;height:100%;background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(20,5,5,.4));z-index:2'},
+          {x:0,y:0,c:'width:100%;height:20%;background:linear-gradient(transparent,rgba(20,5,5,.3));z-index:2'}
+        ]);
+        _ttl('Chapter 6: The Final Stand');
+        await _w(800);
+        _ac('ka','katniss',0,16);_sc('ka','left');
+        _ac('ki','kitty',14,18);_sc('ki','left');
+        _ac('wa','walter',28,16);_sc('wa','left');
+        await _w(800);
+        var big=_ac('boss','clicker',52,4);big.classList.add('big');
+        _sc('boss','right');
+        await _w(1000);
+        _say('walter','Together. Hit it with everything we\'ve got.');
+        await _tap();
+        _unsay();await _w(300);
+        _arrw(20,58,56);
+        await _w(200);
+        _mag(55,46);
+        await _w(200);
+        _boom(60,40);
+        await _w(500);
+        _hc('boss');
+        await _w(1400);
+        _say('katniss','The path is clear. Let\'s finish the quest.');
+        await _tap();
+        _unsay();
+      },
+
+      /* Scene 7: Special Delivery — Land of Sand */
+      async function(){
+        _stBg.style.background='linear-gradient(to bottom, #f4a460 0%, #e8943a 15%, #deb887 30%, #d2b48c 50%, #c4a67a 70%, #b8956a 85%, #a0805a)';
+        _env([
+          /* hot sun */
+          {x:78,y:82,t:'☀️',s:'5rem'},
+          /* sky wisps */
+          {x:5,y:75,t:'☁️',s:'3rem',c:'opacity:.25'},{x:40,y:80,t:'☁️',s:'2.5rem',c:'opacity:.2'},
+          /* sand dunes - background layer */
+          {x:0,y:42,c:'width:220px;height:50px;background:#c4a060;border-radius:50% 60% 0 0;opacity:.5'},
+          {x:45,y:44,c:'width:200px;height:45px;background:#b89050;border-radius:60% 50% 0 0;opacity:.5'},
+          /* sand dunes - foreground */
+          {x:0,y:18,c:'width:180px;height:40px;background:#b89860;border-radius:50% 55% 0 0;opacity:.6'},
+          {x:55,y:20,c:'width:160px;height:35px;background:#a88850;border-radius:55% 50% 0 0;opacity:.6'},
+          /* === FORTRESS === */
+          /* main castle body */
+          {x:48,y:0,c:'width:180px;height:310px;background:linear-gradient(180deg,#9B8365 0%,#8B7355 30%,#7B6345 100%)'},
+          /* parapet strip on main body top */
+          {x:48,y:38,c:'width:180px;height:14px;background:#a08a6a'},
+          /* left tower — tighter to main body */
+          {x:45,y:0,c:'width:42px;height:370px;background:linear-gradient(180deg,#8B7355 0%,#7B6345 100%)'},
+          /* left tower cap */
+          {x:45,y:46,c:'width:42px;height:14px;background:#9B8365'},
+          /* right tower — tighter to main body */
+          {x:81,y:0,c:'width:42px;height:370px;background:linear-gradient(180deg,#8B7355 0%,#7B6345 100%)'},
+          /* right tower cap */
+          {x:81,y:46,c:'width:42px;height:14px;background:#9B8365'},
+          /* gate arch */
+          {x:61,y:0,c:'width:34px;height:50px;background:#3a2a15;border-radius:17px 17px 0 0'},
+          /* windows on main body */
+          {x:54,y:20,c:'width:12px;height:18px;background:#3a2a15;border-radius:6px 6px 0 0'},
+          {x:76,y:20,c:'width:12px;height:18px;background:#3a2a15;border-radius:6px 6px 0 0'},
+          /* tower windows */
+          {x:49,y:18,c:'width:10px;height:12px;background:#3a2a15;border-radius:5px 5px 0 0'},
+          {x:85,y:18,c:'width:10px;height:12px;background:#3a2a15;border-radius:5px 5px 0 0'},
+          {x:49,y:32,c:'width:10px;height:12px;background:#3a2a15;border-radius:5px 5px 0 0'},
+          {x:85,y:32,c:'width:10px;height:12px;background:#3a2a15;border-radius:5px 5px 0 0'},
+          /* flag pole + flag — pole with flag attached at top */
+          {x:49,y:47,c:'width:3px;height:22px;background:#5a4a35'},
+          {x:49,y:49,c:'width:18px;height:10px;background:#cc3366;border-radius:0 3px 3px 0'},
+          /* stone texture lines */
+          {x:48,y:14,c:'width:180px;height:2px;background:rgba(0,0,0,.08)'},
+          {x:48,y:28,c:'width:180px;height:2px;background:rgba(0,0,0,.08)'},
+          /* cacti scattered */
+          {x:5,y:10,t:'🌵',s:'3rem'},{x:25,y:8,t:'🌵',s:'2.5rem'},{x:88,y:7,t:'🌵',s:'2.8rem'},
+          /* ground details */
+          {x:10,y:3,t:'🦂',s:'1.5rem'},{x:38,y:2,t:'💀',s:'1.3rem'},
+          {x:15,y:5,c:'width:40px;height:10px;background:rgba(139,115,85,.3);border-radius:50%'},
+          {x:75,y:4,c:'width:50px;height:8px;background:rgba(139,115,85,.3);border-radius:50%'},
+          /* heat shimmer */
+          {x:0,y:28,c:'width:100%;height:8%;background:linear-gradient(90deg,transparent,rgba(244,164,96,.12),transparent)'},
+          /* sparkles around castle */
+          {x:48,y:40,t:'✨',s:'1.5rem'},{x:74,y:38,t:'✨',s:'1.3rem'},{x:60,y:44,t:'✨',s:'1.2rem'}
+        ]);
+        _ttl('Chapter 7: The Land of Sand \u2764\uFE0F');
+        await _w(1000);
+        /* Maddy stands on top of the fortress */
+        _ac('ma','maddy',54,34);_sc('ma','right');
+        await _w(1000);
+        _ac('wa','walter',0,16);_sc('wa','left');
+        await _w(300);
+        _ac('ki','kitty',14,18);_sc('ki','left');
+        await _w(300);
+        _ac('ka','katniss',28,16);_sc('ka','left');
+        await _w(1200);
+        _say('walter','There... the fortress in the Land of Sand.');
+        await _tap();
+        _say('katniss','She\'s up there. Let\'s finish this.');
+        await _tap();
+        var p=_prl(30,32);
+        await _w(1000);
+        p.style.left='58%';p.style.bottom='42%';
+        await _w(2500);
+        _say('katniss','Maddy Cole... this pearl is for you.');
+        await _tap();
+        _hrt();
+        await _w(800);
+        _say('walter','The chemistry was perfect. Happy Valentine\'s Day. \u{1F496}');
+        await _tap();
+        _unsay();
+        _stAdv.textContent='\u{1F496} The End \u2014 Tap to finish \u{1F496}';
+      }
+    ];
+
+    /* Scene playback */
+    async function _playScene(){
+      _clr();
+      try{ await _SCENES[_stIdx](); _stAdv.classList.add('show'); }catch(e){}
+    }
+
+    function startStory(){_stIdx=0;showScreen('story');_playScene();}
+    function storyCleanup(){_clr();_stIdx=0;_stAdv.textContent='Tap to continue \u203A';}
+  </script>
+</body>
+</html>

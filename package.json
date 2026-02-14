@@ -1,0 +1,7 @@
+{
+  "name": "maddy-valentines-2026",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -l 3000"
+  }
+}
