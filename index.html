@@ -303,8 +303,8 @@
       margin-bottom: 4px;
     }
     .candle-wick {
-      width: 4px;
-      height: 18px;
+      width: 6px;
+      height: 22px;
       background: linear-gradient(to bottom, #4a3728, #2d1f16);
       border-radius: 2px;
       cursor: pointer;
@@ -350,20 +350,21 @@
     }
     .perimeter-candles .candle-wick-wrap { margin-bottom: 2px; }
     .perimeter-candles .candle-body {
-      width: 6px;
-      height: 14px;
+      width: 10px;
+      height: 22px;
       background: linear-gradient(to right, #f5deb3, #e8d4a8);
-      border-radius: 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
       flex-shrink: 0;
     }
     .perimeter-candles .candle-wick {
-      width: 2px;
-      height: 10px;
+      width: 3px;
+      height: 14px;
+      padding: 16px;
     }
     .perimeter-candles .candle-unit.lit .candle-flame {
-      width: 8px;
-      height: 12px;
+      width: 12px;
+      height: 18px;
     }
     .perimeter-candles .candle-flame { margin-bottom: 1px; }
 
@@ -671,8 +672,8 @@
     const candle6 = document.getElementById('candle6');
     const perimeterCandles = document.getElementById('perimeterCandles');
     const PERIMETER_COUNT = 12;
-    const CAKE_RADIUS_X = 23;
-    const CAKE_RADIUS_Y = 13;
+    const CAKE_RADIUS_X = 30;
+    const CAKE_RADIUS_Y = 18;
 
     for (let i = 0; i < PERIMETER_COUNT; i++) {
       const angle = (Math.PI * 2 * i) / PERIMETER_COUNT - Math.PI / 2;
@@ -895,7 +896,7 @@
         await _tap();
         _say('walter','Jesse could never match my chemistry, that dumb bitch.');
         await _tap();
-        _ac('ki','kitty',55,18);_sc('ki','right');
+        _ac('ki','kitty',55,25);_sc('ki','right');
         await _w(800);
         _ac('ka','katniss',30,16);_sc('ka','left');
         await _w(1000);
@@ -941,7 +942,7 @@
         await _w(800);
         _ac('wa','walter',0,16);_sc('wa','left');
         await _w(300);
-        _ac('ki','kitty',25,18);_sc('ki','left');
+        _ac('ki','kitty',25,25);_sc('ki','left');
         await _w(300);
         _ac('ka','katniss',50,16);_sc('ka','left');
         await _w(1200);
@@ -984,7 +985,7 @@
         _ttl('Chapter 3: Ambush!');
         await _w(600);
         _ac('wa','walter',0,16);_sc('wa','left');
-        _ac('ki','kitty',14,18);_sc('ki','left');
+        _ac('ki','kitty',14,25);_sc('ki','left');
         _ac('ka','katniss',28,16);_sc('ka','left');
         await _w(900);
         _ac('c1','clicker',60,16);_sc('c1','right');
@@ -1043,7 +1044,7 @@
         await _w(800);
         _ac('ka','katniss',12,16);_sc('ka','left');
         _ac('wa','walter',28,16);_sc('wa','left');
-        _ac('ki','kitty',44,18);_sc('ki','left');
+        _ac('ki','kitty',44,25);_sc('ki','left');
         await _w(900);
         _ac('c1','clicker',0,14);_sc('c1','left');
         _ac('c2','clicker',62,16);_sc('c2','right');
@@ -1096,7 +1097,7 @@
         _ttl('Chapter 5: The Chemistry');
         await _w(800);
         _ac('ka','katniss',0,16);_sc('ka','left');
-        _ac('ki','kitty',14,18);_sc('ki','left');
+        _ac('ki','kitty',14,25);_sc('ki','left');
         _ac('wa','walter',28,16);_sc('wa','left');
         await _w(700);
         _ac('c1','clicker',52,16);_sc('c1','right');
@@ -1148,7 +1149,7 @@
         _ttl('Chapter 6: The Final Stand');
         await _w(800);
         _ac('ka','katniss',0,16);_sc('ka','left');
-        _ac('ki','kitty',14,18);_sc('ki','left');
+        _ac('ki','kitty',14,25);_sc('ki','left');
         _ac('wa','walter',28,16);_sc('wa','left');
         await _w(800);
         var big=_ac('boss','clicker',52,4);big.classList.add('big');
@@ -1231,7 +1232,7 @@
         await _w(1000);
         _ac('wa','walter',0,16);_sc('wa','left');
         await _w(300);
-        _ac('ki','kitty',14,18);_sc('ki','left');
+        _ac('ki','kitty',14,25);_sc('ki','left');
         await _w(300);
         _ac('ka','katniss',28,16);_sc('ka','left');
         await _w(1200);
