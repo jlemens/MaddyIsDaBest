@@ -294,26 +294,33 @@
       text-shadow: 2px 2px 0 #c4a574, -1px -1px 0 #8b6914;
       line-height: 1;
       user-select: none;
+      margin-top: -8px;
     }
     .candle-wick-wrap {
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: -4px;
     }
     .candle-wick {
-      width: 6px;
-      height: 22px;
-      background: linear-gradient(to bottom, #4a3728, #2d1f16);
+      width: 0px;
+      height: 0px;
+      background: transparent;
       border-radius: 2px;
       cursor: pointer;
       transition: transform 0.2s;
       flex-shrink: 0;
-      padding: 24px;
-      background-clip: content-box;
+      padding: 0;
     }
     .candle-wick:hover { transform: scale(1.15); }
+    .wick-line {
+      width: 3px;
+      height: 28px;
+      background: linear-gradient(to bottom, #2d1f16, #4a3728);
+      border-radius: 1px;
+      margin: -4px auto -2px;
+    }
     .candle-flame {
       width: 0;
       height: 0;
@@ -358,9 +365,11 @@
       flex-shrink: 0;
     }
     .perimeter-candles .candle-wick {
-      width: 3px;
-      height: 14px;
-      padding: 16px;
+      width: 4px;
+      height: 16px;
+      padding: 0;
+      background: linear-gradient(to bottom, #4a3728, #2d1f16);
+      background-clip: unset;
     }
     .perimeter-candles .candle-unit.lit .candle-flame {
       width: 12px;
@@ -570,6 +579,7 @@
                   <div class="candle-flame"></div>
                   <div class="candle-wick" data-wick></div>
                 </div>
+                <div class="wick-line"></div>
                 <span class="candle-body">2</span>
               </div>
               <div class="candle-unit" id="candle6">
@@ -577,6 +587,7 @@
                   <div class="candle-flame"></div>
                   <div class="candle-wick" data-wick></div>
                 </div>
+                <div class="wick-line"></div>
                 <span class="candle-body">6</span>
               </div>
             </div>
@@ -672,8 +683,8 @@
     const candle6 = document.getElementById('candle6');
     const perimeterCandles = document.getElementById('perimeterCandles');
     const PERIMETER_COUNT = 12;
-    const CAKE_RADIUS_X = 30;
-    const CAKE_RADIUS_Y = 18;
+    const CAKE_RADIUS_X = 22;
+    const CAKE_RADIUS_Y = 13;
 
     for (let i = 0; i < PERIMETER_COUNT; i++) {
       const angle = (Math.PI * 2 * i) / PERIMETER_COUNT - Math.PI / 2;
