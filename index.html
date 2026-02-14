@@ -285,6 +285,7 @@
       flex-direction: column;
       align-items: center;
       position: relative;
+      cursor: pointer;
     }
     .candle-body {
       font-size: clamp(2.5rem, 12vw, 3.5rem);
@@ -309,6 +310,8 @@
       cursor: pointer;
       transition: transform 0.2s;
       flex-shrink: 0;
+      padding: 12px;
+      background-clip: content-box;
     }
     .candle-wick:hover { transform: scale(1.15); }
     .candle-flame {
@@ -712,9 +715,8 @@
     }
 
     document.addEventListener('click', (e) => {
-      const wick = e.target.closest('.candle-wick');
-      if (!wick) return;
-      const candleUnit = wick.closest('.candle-unit');
+      const candleUnit = e.target.closest('.candle-unit');
+      if (!candleUnit) return;
       if (candleUnit.classList.contains('lit')) return;
       candleUnit.classList.add('lit');
       tryAdvanceBirthday();
